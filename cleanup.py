@@ -28,7 +28,7 @@ def main():
     # except:
     #   pass
     try:
-
+    	#Deprecated version
         db = MongoClient()    
         db.drop_database('spearmint')
         print 'dropped database'
