@@ -28,9 +28,7 @@ def main():
 
     while True:
         fixed_params = create_mask_list(fixed_mask = top_mask)
-        #fixed_params = [{'nhid':1},{'nhid':2},{'nhid':3},\
-        #                {'nhid':4},{'nhid':5},False]                      
-
+ 
         print 'Using: ', fixed_params
 
         smry_list = []

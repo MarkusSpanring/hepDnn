@@ -39,22 +39,6 @@ from ModelScore import *
     #7    ptype               particle type [mu ,el, all]
 
 
-#          8421 8421 8421 
-#       #0b 0000 0000 0000           rank martin         rank self
-#  1--8 #0 dr_leptau                     5                   7
-#--8  4 #0 jdeta                         2                   2
-#  4  2 #0 jeta1eta2                     10                  12
-#  2  1 #0 lep_etacentrality             8                   5
-#  1--8 #0 met_centrality                7                   8
-#--8  4 #0 mjj                           13                  13
-#  4  2 #0 mt_1                          12                  11
-#  2  1 #0 mvis                          6                   9
-#  1--8 #0 pt_sum                        3                   3
-#--8  4 #0 pt_tot                        4                   4
-#  4  2 #0 sphericity                    11                  10
-#  2  1 #0 svfit_mass                    1                   1
-#  1       svfit_pt                      9                   6
-
 def cast(args):
     '''Casts the correct datatype on args
     '''
@@ -141,13 +125,10 @@ def optimize_DNN(params, s_name, maxScore, fixed_param = {}):
     modelname = '%s_%d_%d_%d_%0.14f_%0.14f_%0.6f_%d_%0.6f' % tuple(args[:-1])
     modelname = '%s_%s_%d.pkl' % (str( conf['ptype'] ),modelname,
                                   int( conf['batch_size']) )
-#    try:
+
     print 'start training'
     loss = train_model.Compute_Objective(args = args, conf = conf,
                                              stop = stop, left_slope = left_slope)        
-    # except Exception, e:
-    #     ERROR = True
-    #     print 'Problem with training' ,e
 
     if not ERROR:       
         AMS = ModelAMS(modelname = modelname,
@@ -207,11 +188,7 @@ def main(job_id, params,**kwargs):
     s_name = kwargs.get('s_name','smry-file.dat')
     fixed_param = kwargs.get('fixed_param',{})
 
-    #try:
     maxScore = write_summary(s_name = s_name)
-    # except Exception,e:
-    #     print 'Problem with write_summary',e
-    #     maxScore = 0
 
     result = optimize_DNN( params = params, s_name = s_name,
                            maxScore = maxScore, fixed_param = fixed_param)   

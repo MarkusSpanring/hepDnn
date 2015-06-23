@@ -200,6 +200,5 @@ def f32(flt):
 
     elif type(flt) is float or \
          type(flt) is np.float64:
-        tmp = np.array( [flt],dtype = np.float32 )
-        flt = float(format(tmp[0],'.20f')) 
+         flt = float(np.float32(flt)) 
     return flt

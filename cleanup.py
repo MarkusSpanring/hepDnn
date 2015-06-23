@@ -11,22 +11,11 @@ def main():
     except:
         pass
 
-    # try:
-    #   shutil.rmtree( '%s/model' % dev_path )
-    #   print 'deleted: %s/model' % dev_path
-    # except:
-    #   pass
-
     try:
         shutil.rmtree( '%s/log' % dev_path )
         print 'deleted: %s/log' % dev_path
     except:
         pass
-    # try:
-    #   shutil.rmtree( '%s/hist' % dev_path )
-    #   print 'deleted: %s/hist' % dev_path
-    # except:
-    #   pass
     try:
     	#Deprecated version
         db = MongoClient()    

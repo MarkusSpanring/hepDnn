@@ -13,11 +13,8 @@ import theano
 import sys
 import pylearn2.datasets.physics
 import pickle as pkl
-from pyAMS import TAMS
-try:import ROOT
-except ImportError:
-    sys.path.insert(0, "/usr/lib64/python2.6/site-packages")
-    import ROOT
+from pyAMS import TAMS, ROOT
+
 
 
 class ModelAMS():
@@ -196,7 +193,7 @@ class ModelAMS():
                     tams.rebinEqui()
                     tams.br = 1
                     self.score["test_rb"] = tams.ams_syst_stat(0)
-                    tams.br = 0.001
+                    tams.br = 0.0
                     self.score["test_rb_reg"] = tams.ams_syst_stat(0)
 
 
@@ -208,7 +205,7 @@ class ModelAMS():
                     tams.rebinEqui()
                     tams.br = 1
                     self.score["train_rb"] = tams.ams_syst_stat(0)
-                    tams.br = 0.001
+                    tams.br = 0.0
                     self.score["train_rb_reg"] = tams.ams_syst_stat(0)
 
                     f0.Close()

@@ -159,7 +159,7 @@ class Create_datasets():
                       exclude = None ):
 
         '''
-        Allows to set or reset an arbitrary number of parameters
+        Allows to set or reset an arbitrary number of parameters.
         '''
         if folder_name != None:
             self.folder_name = folder_name

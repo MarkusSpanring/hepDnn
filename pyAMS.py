@@ -1,10 +1,8 @@
 import os
 import numpy as np
 import sys
-try:import ROOT
-except ImportError:
-    sys.path.insert(0, "/usr/lib64/python2.6/site-packages")
-    import ROOT
+import ROOT
+
 
 
 class TAMS():

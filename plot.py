@@ -213,21 +213,17 @@ class Plot():
         'momentum_saturate':'Momentum Saturation','momentum_final':'Final Momentum','batch_size':'Batch Size',\
         'loss': 'Loss'}
 
-        # Set up a regular grid of interpolation points
-
-        # Set up a regular grid of interpolation points
         self.set_data(x_param , y_param)
 
 
         xi, yi = np.linspace(self.x.min(), self.x.max(), 1000), np.linspace(self.y.min(), self.y.max(), 1000)
         xi, yi = np.meshgrid(xi, yi)
 
-        # Interpolate; there's also method='cubic' for 2-D data such as here
         fig = plt.figure()
         zi = scipy.interpolate.griddata((self.x, self.y), self.z, (xi, yi), method='linear')
         plt.xlabel(self.lbl[x_param], fontsize = 'small')
         plt.ylabel(self.lbl[y_param], fontsize = 'small')
-        #fig.suptitle('%s over %s' % (ttl_lbl[x_param],ttl_lbl[y_param]), fontsize=20)       
+     
 
 
         plt.rcParams.update({'font.size': 18})
@@ -282,7 +278,6 @@ if __name__ == '__main__':
         x_param = args['over'][0]
         y_param = args['over'][1]
         objPlot.Plot_Heat(x_param=x_param, y_param=y_param)
-        #objPlot.Plot_3D(x_param=x_param, y_param=y_param)
 
     if args.has_key('time'):
         objPlot.Plot_Time(x_param =  args['time'])

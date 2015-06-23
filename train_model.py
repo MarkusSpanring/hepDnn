@@ -125,25 +125,14 @@ def init_train(args, conf = {'batch_size':200,
                                       seed = seed,
                                       stop = stop)
 
-    # dataset_train_monitor = \
-    # pylearn2.datasets.physics.PHYSICS(which_set='monitor',
-    #                                   ptype = ptype,
-    #                                   flag_reg = flag_reg,
-    #                                   hex_mask = hex_mask,
-    #                                   seed = seed)
-    # dataset_valid = \
-    # pylearn2.datasets.physics.PHYSICS(which_set='valid',
-    #                                   ptype = ptype,
-    #                                   flag_reg = flag_reg,
-    #                                   hex_mask = hex_mask,
-    #                                   seed = seed)
-
-    dataset_test = \
-    pylearn2.datasets.physics.PHYSICS(which_set='test',
+    dataset_valid = \
+    pylearn2.datasets.physics.PHYSICS(which_set='valid',
                                       ptype = ptype,
                                       flag_reg = flag_reg,
                                       hex_mask = hex_mask,
                                       seed = seed)
+
+
 
 
     # Model
@@ -187,7 +176,7 @@ def init_train(args, conf = {'batch_size':200,
                                         max_epochs = 100),
             						pylearn2.termination_criteria.And(criteria=[
                                     pylearn2.termination_criteria.MonitorBased(
-                                        channel_name="test_objective",
+                                        channel_name="valid_objective",
                                         prop_decrease = prop_decrease,
                                         N = in_N),
                                     pylearn2.termination_criteria.EpochCounter(
@@ -249,7 +238,7 @@ def Compute_Objective(args,conf, **kwargs):
         sys.stderr = old_stderr
          
         # Return objective to hyperopt.
-        loss = train.model.monitor.channels['test_objective'].val_record
+        loss = train.model.monitor.channels['valid_objective'].val_record
 
         try:
             fig = plt.figure()
@@ -274,8 +263,7 @@ def f32(flt):
 
     elif type(flt) is float or \
          type(flt) is np.float64:
-        tmp = np.array( [flt],dtype = np.float32 )
-        flt = float(format(tmp[0],'.20f')) 
+         flt = float(np.float32(flt)) 
     return flt
 
 if __name__=='__main__':

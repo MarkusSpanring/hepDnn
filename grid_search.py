@@ -51,7 +51,6 @@ def main():
     layer_lst = get_grid(x=nhid_lst, y=sat_lst,
                          x_key = 'nhid', y_key = 'momentum_saturate')
 
-
     for layer in layer_lst:
         count = 0
         sname = get_sname()        

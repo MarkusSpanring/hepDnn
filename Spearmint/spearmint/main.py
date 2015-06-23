@@ -185,7 +185,7 @@
 ###############################################################################
 #                Edited by Markus Spanring HEPHY Vienna 2015                  #
 ###############################################################################
-# All edits are marked with EDIT
+# All changes are marked with EDIT
 
 import sys
 import optparse
