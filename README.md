@@ -13,7 +13,7 @@ Additionally the ''*Data Analysis Framework: ROOT*'' including python bindings n
 The files in the folders 
 - pylearn2
 - Spearmint
--
+
 in the master branch need to be copied into the respective folder of the 
 pylearn2 and Spearmint installation directories.
 
