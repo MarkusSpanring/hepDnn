@@ -5,5 +5,5 @@ Python code to optimize Deep neural network created with **pylearn2** using **Sp
 
 To setup Pylearn2 and Spearmint please follow the instructions given on the respective page.
 
-  https://github.com/HIPS/Spearmint
-  http://deeplearning.net/software/pylearn2/
+-   https://github.com/HIPS/Spearmint
+-   http://deeplearning.net/software/pylearn2/
