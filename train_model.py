@@ -297,8 +297,8 @@ if __name__=='__main__':
 
     hex_mask = '0x0000'
     seed = 74             
-    nhid = 7
-    nodes = 100              
+    nhid = 2
+    nodes = 25              
     lrinit = f32( 0.00300000002608 )            
     lrdecay = f32(1.00007057189941)            
     momentum_init =  f32(0.850000)
@@ -315,10 +315,10 @@ if __name__=='__main__':
             momentum_init,momentum_saturate,momentum_final,flag_reg]
 
     conf = {'batch_size':100,
-        'prop_decrease':0.0005,
-        'in_N':100,
+        'prop_decrease':0.0001,
+        'in_N':50,
         'max_epochs':1000,
-        'min_lr':1e-6,
+        'min_lr':1e-7,
         'ptype': 'mu'}
 
     Compute_Objective( args = arg, conf = conf )

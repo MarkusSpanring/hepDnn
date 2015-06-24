@@ -155,9 +155,9 @@ class DATASET(dense_design_matrix.DenseDesignMatrix):
 
         # Initialize the superclass. DenseDesignMatrix
         if contains_y:
-            super(PHYSICS,self).__init__(X=X, y=y)
+            super(DATASET,self).__init__(X=X, y=y)
         else:
-            super(PHYSICS,self).__init__(X=X)
+            super(DATASET,self).__init__(X=X)
 
     def apply_mask(self,data,hex_mask = "0x0000"):
 
