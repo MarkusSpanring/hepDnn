@@ -67,7 +67,7 @@ def init_train(args, conf = {'batch_size':200,
     This object represents the complete model and algorithm
     .main_loop() starts training of this model
     """
-    dev_path = os.environ['DEV_PATH']
+    dev_path = os.environ['DNN_PATH']
 
 
     # Interpret arguments.
@@ -224,7 +224,7 @@ def Compute_Objective(args,conf, **kwargs):
         # Train network.
         old_stdout = sys.stdout
         old_stderr = sys.stderr
-        dev_path = os.environ['DEV_PATH']
+        dev_path = os.environ['DNN_PATH']
 
         modelname = '%s_%d_%d_%d_%0.14f_%0.14f_%0.6f_%d_%0.6f' % tuple(args[:-1])
         modelname = '%s_%s_%d' % (str( conf['ptype'] ),modelname,
@@ -307,7 +307,7 @@ if __name__=='__main__':
           
 
 
-    dev_path = os.environ['DEV_PATH']
+    dev_path = os.environ['DNN_PATH']
 
     flag_reg = 0xb
 
@@ -315,8 +315,8 @@ if __name__=='__main__':
             momentum_init,momentum_saturate,momentum_final,flag_reg]
 
     conf = {'batch_size':100,
-        'prop_decrease':0.0001,
-        'in_N':50,
+        'prop_decrease':0.0005,
+        'in_N':100,
         'max_epochs':1000,
         'min_lr':1e-7,
         'ptype': 'mu'}

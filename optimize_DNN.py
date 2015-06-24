@@ -60,7 +60,7 @@ def optimize_DNN(params, s_name, maxScore, fixed_param = {}):
     """
 
     if fixed_param is None: fixed_param = {}
-    dev_path = os.environ['DEV_PATH']
+    dev_path = os.environ['DNN_PATH']
     flag_reg = 0xb
     seed = 74   
     threshold = 2.1

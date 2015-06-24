@@ -6,7 +6,7 @@ from spearmint.utils.parsing import parse_db_address
 
 def main():
 
-	dev_path = os.environ['DEV_PATH']
+	dev_path = os.environ['DNN_PATH']
 	try:
 		shutil.rmtree( '%s/output' % dev_path )
 		print 'deleted: %s/output' % dev_path

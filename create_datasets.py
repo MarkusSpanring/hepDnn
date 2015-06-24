@@ -52,7 +52,7 @@ def main():
     '''
  
     strStruct = get_tree_struct(features = 'high')
-    cd = Create_datasets(folder_name = '13TeV_sv', tree_name = 'TauCheck', ptype = 'mu', strStruct = strStruct,ratio = 1.)
+    cd = Create_datasets(folder_name = '8TeV', tree_name = 'TauCheck', ptype = 'mu', strStruct = strStruct,ratio = 1.)
     cd.save_datasets_csv(ptypes = ['mu'])
 
 
@@ -91,7 +91,7 @@ class Create_datasets():
             if alt_DEV_PATH != '':
                 dev_path = alt_DEV_PATH
             else:
-                dev_path = os.environ['DEV_PATH']
+                dev_path = os.environ['DNN_PATH']
         except:
             dev_path = '%s' % os.path.expanduser('~')
 

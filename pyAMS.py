@@ -132,7 +132,7 @@ class TAMS():
 
     def savePlot(self,fname="plot_tams.png"):
 
-        dev_path = os.environ['DEV_PATH']
+        dev_path = os.environ['DNN_PATH']
 
         if not os.path.exists("%s/figure" % dev_path):
             os.makedirs("%s/figure" % dev_path)

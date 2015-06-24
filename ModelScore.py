@@ -63,7 +63,7 @@ class ModelAMS():
 
         """
 
-        dev_path = os.environ['DEV_PATH']
+        dev_path = os.environ['DNN_PATH']
 
         print "\npropagating through: "+self.modelname
         try:
@@ -115,7 +115,7 @@ class ModelAMS():
             If Histogram is filled succesfully '1' will be returned
             """
 
-            dev_path = os.environ['DEV_PATH']
+            dev_path = os.environ['DNN_PATH']
 
             if not os.path.exists("%s/hist" % dev_path):
                 os.makedirs("%s/hist" % dev_path)
@@ -167,7 +167,7 @@ class ModelAMS():
             set and the corresponding model parameters.
             """
 
-            dev_path = os.environ['DEV_PATH']
+            dev_path = os.environ['DNN_PATH']
 
 
             strAMS = ""
@@ -236,7 +236,7 @@ class ModelAMS():
     def plot_hist(self):
 
 
-            dev_path = os.environ['DEV_PATH']
+            dev_path = os.environ['DNN_PATH']
 
             if os.path.isfile("%s/hist/%s" % (dev_path, self.rt_name )):
 

@@ -59,7 +59,7 @@ def write_summary(s_name = "summary.dat"):
     """
 
 
-    dev_path = os.environ['DEV_PATH']
+    dev_path = os.environ['DNN_PATH']
     filenames = [fl for fl in iter(sorted(os.listdir("%s/output" % dev_path)))\
                  if '.out' in fl]
 
@@ -167,7 +167,7 @@ def check_duplicate(args, conf, s_name):
     DUPLICATE type=boolean
     score     type=float
     """
-    dev_path = os.environ['DEV_PATH']
+    dev_path = os.environ['DNN_PATH']
     s_path = '%s/scores/%s/%s' %\
              (dev_path, s_name.split('-')[0], s_name )
 

@@ -16,7 +16,7 @@ from ModelScore import *
 
 def main():
     
-    dev_path = os.environ['DEV_PATH']
+    dev_path = os.environ['DNN_PATH']
 
     hex_mask = '0x0000'
     seed = 42
@@ -119,7 +119,7 @@ def main():
 
 def write_summary(scores, sname = 'summary.grd'):
 
-    path = '%s/scores' % (os.environ['DEV_PATH'])
+    path = '%s/scores' % (os.environ['DNN_PATH'])
     folder = sname.split('-')[0]
 
     if not os.path.exists("%s/%s" % (path, folder )  ):

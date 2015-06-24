@@ -55,7 +55,7 @@ class DATASET(dense_design_matrix.DenseDesignMatrix):
                  start=0, 
                  stop=np.inf):
 
-        dev_path = os.environ['DEV_PATH']
+        dev_path = os.environ['DNN_PATH']
 
         if flag_reg&0x1 == 0x1:
             contains_weight = True

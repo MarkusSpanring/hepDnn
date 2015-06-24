@@ -41,7 +41,7 @@ def main():
                 return AMS_list
             try:
                 smry_list.append(spear.main( max_jobs = max_jobs,
-                                             expt_dir = os.environ['DEV_PATH'],
+                                             expt_dir = os.environ['DNN_PATH'],
                                              fixed_param = fixed_param))
                 cleanup.main()
             except KeyboardInterrupt:
@@ -59,7 +59,7 @@ def find_top_mask(summary_list):
        RETURN:
        Mask corresponding to best obtained result
     '''
-    dev_path = os.environ['DEV_PATH']
+    dev_path = os.environ['DNN_PATH']
     AMS = 0
     Mask = '0x000'
     search_pattern = ['#AMSrb_test: ', '#hex_mask: ']

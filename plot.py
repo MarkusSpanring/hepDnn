@@ -11,7 +11,7 @@ import scipy.interpolate
 
 class Plot():
     def __init__(self, s_name, x_param = 'nhid', y_param='nodes' ):
-        self.dev_path = os.environ['DEV_PATH']
+        self.dev_path = os.environ['DNN_PATH']
         self.LOGY = False
         self.LOGX = False
 
