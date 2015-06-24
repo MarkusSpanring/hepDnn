@@ -8,7 +8,11 @@ To setup Pylearn2 and Spearmint please follow the instructions given on the resp
 -   https://github.com/HIPS/Spearmint
 -   http://deeplearning.net/software/pylearn2/
 
-Additionally the ''*Data Analysis Framework: ROOT*'' including python bindings needs to be installed. 
+Additionally the ''*Data Analysis Framework: ROOT*'' including python bindings needs to be installed.
+
+To install just clone the repository to your home directory
+
+	git clone https://github.com/MarkusSpanring/hepDnn
 
 The files in the folders 
 - pylearn2
