@@ -9,12 +9,11 @@
 
 
 import train_model
+import time
 import os
 import random
 from spr_logtools import *
 from ModelScore import *
-
-
 
 
     #1    hex_mask            Applies mask on dataset (1 in mask drops feature)
@@ -37,7 +36,6 @@ from ModelScore import *
     #5    min_lr              min value to which learnrate can decrease
     #6    momentum_final      max value of momentum
     #7    ptype               particle type [mu ,el, all]
-
 
 def cast(args):
     '''Casts the correct datatype on args
@@ -63,20 +61,20 @@ def optimize_DNN(params, s_name, maxScore, fixed_param = {}):
 
     if fixed_param is None: fixed_param = {}
     dev_path = os.environ['DEV_PATH']
-    flag_reg = 0x3
+    flag_reg = 0xb
     seed = 74   
-    threshold = 2.0
+    threshold = 2.1
     ERROR = False
     loss = 1.
 
-    args = cast(['0x0000',seed,5,500,-2,-5,\
-                0.8,300,0.99,flag_reg])
-
-    conf = {'batch_size':70,
-        'prop_decrease':0.0005,
+    args = cast(['0x0000',seed,8,500,0.003,-5,\
+                0.8,300,0.995,flag_reg])
+ 
+    conf = {'batch_size':100,
+        'prop_decrease':0.00005,
         'in_N':15,
-        'max_epochs':800,
-        'min_lr':0.000001,
+        'max_epochs':400,
+        'min_lr':0.0000001,
         'ptype': 'mu'}
 
 
@@ -129,7 +127,7 @@ def optimize_DNN(params, s_name, maxScore, fixed_param = {}):
     print 'start training'
     loss = train_model.Compute_Objective(args = args, conf = conf,
                                              stop = stop, left_slope = left_slope)        
-
+    time.sleep(20)
     if not ERROR:       
         AMS = ModelAMS(modelname = modelname,
                        ptype = conf['ptype'],
@@ -178,8 +176,12 @@ def optimize_DNN(params, s_name, maxScore, fixed_param = {}):
         os.remove("%s/model/%s" % (dev_path, modelname))
         os.remove("%s/log/%s"% (dev_path ,modelname.replace(".pkl",".log")) )
 
+    time.sleep(20)
+    retscore = float(AMS.score['test_rb'])*-1
+    del AMS
+    time.sleep(5)
+    return retscore
 
-    return float(AMS.score['test_rb'])*-1
 
 
 def main(job_id, params,**kwargs): 

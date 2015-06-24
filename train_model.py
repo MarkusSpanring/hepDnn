@@ -10,7 +10,6 @@
 
 import sys
 import os
-import time
 import theano
 from ModelScore import *
 import pylearn2
@@ -20,11 +19,9 @@ import pylearn2.training_algorithms.sgd
 import pylearn2.train
 import pylearn2.costs
 import pylearn2.termination_criteria
-import pickle as pkl
 import matplotlib.pyplot as plt
 import numpy as np
-import multiprocessing as mp
-import pylearn2.datasets.physics
+import pylearn2.datasets.higgs_dataset
 
 
 def init_train(args, conf = {'batch_size':200,
@@ -118,21 +115,27 @@ def init_train(args, conf = {'batch_size':200,
 
     # Dataset
     dataset_train = \
-    pylearn2.datasets.physics.PHYSICS(which_set='train',
+    pylearn2.datasets.higgs_dataset.DATASET(which_set='train',
                                       ptype = ptype,
                                       flag_reg = flag_reg,
                                       hex_mask = hex_mask,
                                       seed = seed,
                                       stop = stop)
 
+
     dataset_valid = \
-    pylearn2.datasets.physics.PHYSICS(which_set='valid',
+    pylearn2.datasets.higgs_dataset.DATASET(which_set='valid',
                                       ptype = ptype,
                                       flag_reg = flag_reg,
                                       hex_mask = hex_mask,
                                       seed = seed)
 
-
+    # dataset_test = \
+    # pylearn2.datasets.higgs_dataset.DATASET(which_set='test',
+    #                                   ptype = ptype,
+    #                                   flag_reg = flag_reg,
+    #                                   hex_mask = hex_mask,
+    #                                   seed = seed)
 
 
     # Model
@@ -142,16 +145,17 @@ def init_train(args, conf = {'batch_size':200,
 
     for i in xrange(int(nhid)):
         # Hidden layer i
-        layer = mlp.RectifiedLinear(layer_name = 'h%d' % i,
+        print i,nodes
+        layer = mlp.Tanh(layer_name = 'h%d' % i,
                                  dim=int(nodes),
                                  #left_slope = left_slope,
-                                 istdev = (istdev if i>0 else 0.1) 
+                                 istdev = (istdev if i>0 else 0.01) 
                                 )
         layers.append(layer)
 
     layers.append(mlp.Sigmoid(layer_name='y',
                               dim=1,
-                              istdev=0.001,
+                              irange=0.01,
                               monitor_style = 'bit_vector_class'))
 
     model = pylearn2.models.mlp.MLP(layers, nvis=nvis, seed=seed)
@@ -168,20 +172,17 @@ def init_train(args, conf = {'batch_size':200,
                                 init_momentum = float(momentum_init),
                             ),
             monitoring_dataset = {#'train':dataset_train_monitor,                                  
-                                  'test':dataset_test,
-                                  #'valid':dataset_valid
+                                  # 'test':dataset_test,
+                                  'valid':dataset_valid
                                  },
-            termination_criterion=	pylearn2.termination_criteria.Or( criteria =[
-            						    pylearn2.termination_criteria.EpochCounter(
-                                        max_epochs = 100),
-            						pylearn2.termination_criteria.And(criteria=[
+            termination_criterion=  pylearn2.termination_criteria.And(criteria=[
                                     pylearn2.termination_criteria.MonitorBased(
                                         channel_name="valid_objective",
                                         prop_decrease = prop_decrease,
                                         N = in_N),
                                     pylearn2.termination_criteria.EpochCounter(
-                                        max_epochs = 200)
-                                    ])]),
+                                        max_epochs = max_epochs)
+                                    ]),
             cost=cost,
                        
             update_callbacks=pylearn2.training_algorithms.sgd.ExponentialDecay(
@@ -207,8 +208,8 @@ def init_train(args, conf = {'batch_size':200,
                                  algorithm=algorithm,
                                  extensions=extensions,
                                  #Save to .pkl File
-                                 save_path=save_path,       
-                                 save_freq=50)
+                                 save_path=save_path,
+                                 save_freq=max_epochs)
 
     return train
 
@@ -263,7 +264,8 @@ def f32(flt):
 
     elif type(flt) is float or \
          type(flt) is np.float64:
-         flt = float(np.float32(flt)) 
+
+        flt = float(np.float32(flt)) 
     return flt
 
 if __name__=='__main__':
@@ -292,15 +294,16 @@ if __name__=='__main__':
     #7    ptype               particle type [mu ,el, all]
 
 
+
     hex_mask = '0x0000'
     seed = 74             
-    nhid = 1
-    nodes = 20              
-    lrinit = f32( 0.003 )            
-    lrdecay = f32(1.00032103061676)            
-    momentum_init =  f32(0.70)
-    momentum_final = f32(0.99)
-    momentum_saturate = 150             
+    nhid = 7
+    nodes = 100              
+    lrinit = f32( 0.00300000002608 )            
+    lrdecay = f32(1.00007057189941)            
+    momentum_init =  f32(0.850000)
+    momentum_final = f32(0.990000)
+    momentum_saturate = 100             
           
 
 
@@ -311,11 +314,11 @@ if __name__=='__main__':
     arg = [hex_mask,seed,nhid,nodes,lrinit,lrdecay,\
             momentum_init,momentum_saturate,momentum_final,flag_reg]
 
-    conf = {'batch_size':70,
+    conf = {'batch_size':100,
         'prop_decrease':0.0005,
-        'in_N':10,
+        'in_N':100,
         'max_epochs':1000,
-        'min_lr':0.000005,
+        'min_lr':1e-6,
         'ptype': 'mu'}
 
     Compute_Objective( args = arg, conf = conf )

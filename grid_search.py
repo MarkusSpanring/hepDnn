@@ -51,6 +51,7 @@ def main():
     layer_lst = get_grid(x=nhid_lst, y=sat_lst,
                          x_key = 'nhid', y_key = 'momentum_saturate')
 
+
     for layer in layer_lst:
         count = 0
         sname = get_sname()        
@@ -139,8 +140,7 @@ def f32(flt):
 
     elif type(flt) is float or \
          type(flt) is np.float64:
-        tmp = np.array( [flt],dtype = np.float32 )
-        flt = float(format(tmp[0],'.20f')) 
+        flt = float(np.float32(flt)) 
     return flt
 
 

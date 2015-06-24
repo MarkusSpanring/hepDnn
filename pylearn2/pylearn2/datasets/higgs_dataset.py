@@ -5,23 +5,14 @@
 # Creates pylearn2 dataset from csv-files
 #
 ###############################################################################
+
 import os
-import sys
 import numpy as np
-import pickle as pkl
 from sklearn.preprocessing import StandardScaler
 from pylearn2.datasets import dense_design_matrix
-from pylearn2.datasets import control
-from pylearn2.utils import serial
 
 
 def get_file_path(path,file_type,ptype): 
-	'''Returns path to dataset file of
-
-	   path: folder of dataset files 
-	   file_type: 'train','monitor','test'
-	   ptype: 'el','mu', 'all'
-	'''
 
 
         filenames = os.listdir(path)
@@ -39,32 +30,24 @@ def get_file_path(path,file_type,ptype):
 
 def get_n_samples(path,ptype):
 
-		'''Gets number of events in train dataset and
-		   splits it into 'ntrain' and 'nvalid'
-		'''
-
-		ntrain = 0.9
-		nvalid = 0.1
-
         if get_file_path(path,'train',ptype) is not None:
 
 
             with open(get_file_path(path,'train',ptype),'r') as FSO:
                 train_Events = len(FSO.readlines())        
 
-            return [int(train_Events*ntrain),int(train_Events*nvalid)]
+            return [int(train_Events*0.95),int(train_Events*0.05)]
         else:
             raise [0,0]
 
 
-class PHYSICS(dense_design_matrix.DenseDesignMatrix):
+class DATASET(dense_design_matrix.DenseDesignMatrix):
     """
     Creates train, test and validation datasets and returns them
     as DenseDesignMatrix.
     """
     def __init__(self, 
                  which_set,
-                 otherfile='',
                  ptype = "mu",
                  flag_reg=0x3,
                  hex_mask="0x0000",
@@ -73,22 +56,6 @@ class PHYSICS(dense_design_matrix.DenseDesignMatrix):
                  stop=np.inf):
 
         dev_path = os.environ['DEV_PATH']
-
-        if not os.path.exists("%s/model" % dev_path):
-            os.makedirs("%s/model" % dev_path)
-            os.chown("%s/model" % dev_path, 1000,1000)
-
-        if not os.path.exists("%s/log" % dev_path):
-            os.makedirs("%s/log" % dev_path)
-            os.chown("%s/log" % dev_path, 1000,1000)
-
-        if not os.path.exists("%s/scores" % dev_path):
-            os.makedirs("%s/scores" % dev_path)
-            os.chown("%s/scores" % dev_path, 1000,1000)
-
-        if not os.path.exists("%s/hist" % dev_path):
-            os.makedirs("%s/hist" % dev_path)
-            os.chown("%s/hist" % dev_path, 1000,1000)
 
         if flag_reg&0x1 == 0x1:
             contains_weight = True
@@ -104,14 +71,10 @@ class PHYSICS(dense_design_matrix.DenseDesignMatrix):
             STDIZE = False
 
         path = os.environ['PYLEARN2_DATA_PATH']
-        #path = "/scratch/mspanring/higgs_data/data"
         shift=0
 
 
-        if otherfile != '':
-            inputfile = '%s/%s' % (path, otherfile)
-
-        elif get_file_path(path, which_set, ptype) is not None:
+        if get_file_path(path, which_set, ptype) is not None:
             inputfile = get_file_path(path, which_set, ptype)
 
         else:
@@ -122,7 +85,7 @@ class PHYSICS(dense_design_matrix.DenseDesignMatrix):
 
         print "using "+inputfile 
         
-        X = np.loadtxt(inputfile, dtype='f4', delimiter=',')
+        X = np.loadtxt(inputfile, dtype='float32', delimiter=',')
 
         if contains_y:
             y = X[:,shift].reshape((-1,1))
@@ -188,7 +151,7 @@ class PHYSICS(dense_design_matrix.DenseDesignMatrix):
             y = y[start:stop, :]
 
         if STDIZE:
-            X = self.standardize(X)
+            X = self.standardize(X, mode = 'sck')
 
         # Initialize the superclass. DenseDesignMatrix
         if contains_y:
@@ -226,7 +189,7 @@ class PHYSICS(dense_design_matrix.DenseDesignMatrix):
                 if np.min(vec) < 0:
                     # Assume data is Gaussian or uniform -- center and standardize.
                     vec = vec - np.mean(vec)
-                    vec = vec / np.std(vec)
+                    vec = vec / (np.std(vec))
                 elif np.max(vec) > 1.0:
                     # Assume data is exponential -- just set mean to 1.
                     vec = vec / np.mean(vec)
@@ -236,6 +199,9 @@ class PHYSICS(dense_design_matrix.DenseDesignMatrix):
         else:
             scaler = StandardScaler().fit(X)
             return scaler.transform(X)
+
+
+
 
 
 

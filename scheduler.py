@@ -8,9 +8,9 @@
 ###############################################################################
 import sys
 import os
-import time
 import spearmint.main as spear
 import cleanup
+
 
 def main():
     '''Takes paramters stored in 'fixed_params' (one at a time)
@@ -22,13 +22,17 @@ def main():
        from all features down to one.
     '''
 
-    top_mask = '0x0590'
+    top_mask = '0x00c0'
+
     max_jobs = 25
     AMS_list = []
+    RUN = True
 
-    while True:
-        fixed_params = create_mask_list(fixed_mask = top_mask)
- 
+    while RUN:
+        fixed_params = create_mask_list(fixed_mask = top_mask)        
+        # fixed_params = [{'nhid':6,'flag_reg':0x3},{'nhid':7,'flag_reg':0x3},{'nhid':8,'flag_reg':0x3},\
+        #                 {'nhid':6,'flag_reg':0xb},{'nhid':7,'flag_reg':0xb},{'nhid':8,'flag_reg':0xb},\
+        #                 False]                      
         print 'Using: ', fixed_params
 
         smry_list = []
@@ -39,12 +43,14 @@ def main():
                 smry_list.append(spear.main( max_jobs = max_jobs,
                                              expt_dir = os.environ['DEV_PATH'],
                                              fixed_param = fixed_param))
-                time.sleep(10)
                 cleanup.main()
             except KeyboardInterrupt:
-                sys.exit()
+                sys.exit()          
+
 
         top_mask = find_top_mask( smry_list )
+
+
 
 def find_top_mask(summary_list):
     '''Reads all summaries in 'summary_list' and extracts the 

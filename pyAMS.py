@@ -1,3 +1,11 @@
+#TAMS
+#Author: Martin Flechl, 2014
+#calculate average median significance of two histograms
+###############################################################################
+#                  Edited by: Markus Spanring HEPHY Vienna 2015               #
+###############################################################################
+#Transferred C-code to python code
+#
 import os
 import numpy as np
 import sys
@@ -7,6 +15,8 @@ import ROOT
 
 class TAMS():
     def __init__(self, hSig, hBg, rsys=0.2, br = 1.):
+
+        ROOT.gROOT.Reset()
 
         m_simple = np.full(3,0) #simple s/sqrt(b)
         m_simple_syst = np.full(3,0) #simple s/sqrt(b(1+sys*sys*b))
@@ -185,7 +195,8 @@ class TAMS():
         ROOT.gPad.SetLogy();
         leg2.Draw();
 
-        t=ROOT.TLatex( 0.5, 0.88, "Simulation 2012, #int Ldt=19.7 fb^{-1} (#sqrt{s}=8 TeV)" );
+        t=ROOT.TLatex( 0.5, 0.88, " " );
+
 
         t.SetNDC();
         t.SetTextSize(0.035);

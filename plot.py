@@ -37,7 +37,8 @@ class Plot():
 
         self.npMask = self.npTrace[:,6]
         self.npMask = [int(el, 16) for el in self.npMask]
-        self.npTrace = np.array( np.delete(self.npTrace,[5,6],1),dtype = 'float32')
+        print np.delete(self.npTrace,[5,6],1)[0]
+        self.npTrace = np.array( np.delete(self.npTrace,[5,6,18],1),dtype = np.float32)
 
         self.x_param = ''
         self.y_param = ''
@@ -223,8 +224,6 @@ class Plot():
         zi = scipy.interpolate.griddata((self.x, self.y), self.z, (xi, yi), method='linear')
         plt.xlabel(self.lbl[x_param], fontsize = 'small')
         plt.ylabel(self.lbl[y_param], fontsize = 'small')
-     
-
 
         plt.rcParams.update({'font.size': 18})
         imgplot = plt.imshow(zi, vmin=self.z.min(), vmax=self.z.max(), origin='lower',

@@ -52,7 +52,7 @@ def main():
     '''
  
     strStruct = get_tree_struct(features = 'high')
-    cd = Create_datasets(folder_name = '8TeV', tree_name = 'TauCheck', ptype = 'mu', strStruct = strStruct,ratio = 1.)
+    cd = Create_datasets(folder_name = '13TeV_sv', tree_name = 'TauCheck', ptype = 'mu', strStruct = strStruct,ratio = 1.)
     cd.save_datasets_csv(ptypes = ['mu'])
 
 
@@ -159,7 +159,7 @@ class Create_datasets():
                       exclude = None ):
 
         '''
-        Allows to set or reset an arbitrary number of parameters.
+        Allows to set or reset an arbitrary number of parameters
         '''
         if folder_name != None:
             self.folder_name = folder_name
@@ -533,7 +533,7 @@ class Create_datasets():
         '''
         Returns from '$RTFILES/folder_name' a 
         Training, Test and Monitor dataset which
-        contain  labeled signal as well as labeled  background 
+        contain  labeled signal as well as labeld  background 
         data. 
 
         RETURN:

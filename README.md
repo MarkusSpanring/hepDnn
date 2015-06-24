@@ -17,6 +17,12 @@ The files in the folders
 in the master branch need to be copied into the respective folder of the 
 pylearn2 and Spearmint installation directories.
 
-The files **main.py** and **launcher.py** in the Spearmint folder need to be merged 
+The files **main.py** and **launcher.py** in the *spearmint* folder need to be merged 
 with the respective file in this folder. The modifications are necessery to run
 **optimize_DNN.py** and **scheduler.py**.
+
+The file **higgs_dataset.py** in the *pylearn2/datasets* needs to be copied to the
+respective installation directory of Pylearn2.
+
+The file **mlp.py** in the *pylearn2/models* folder needs to be merged with 
+the respective file in the installation directory.

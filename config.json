@@ -1,0 +1,46 @@
+{
+    "language"        : "PYTHON",
+    "main-file"       : "optimize_DNN",
+    "experiment-name" : "all_parameter-tanh-13tev",
+    "likelihood"      : "NOISELESS",
+    "variables" : {
+        "momentum_init" : {
+            "type" : "FLOAT",
+            "size" : 1,
+            "min"  : 0.5,
+            "max"  : 0.8
+        },
+        "nodes" : {
+            "type" : "FLOAT",
+            "size" : 1,
+            "min"  : 2,
+            "max"  : 70
+        },
+        "nhid" : {
+            "type" : "FLOAT",
+            "size" : 1,
+            "min"  : 3,
+            "max"  : 8
+        },
+        "momentum_saturate" : {
+            "type" : "FLOAT",
+            "size" : 1,
+            "min"  : 20,
+            "max"  : 120
+        },
+        "lrinit" : {
+            "type" : "FLOAT",
+            "size" : 1,
+            "min"  : -5,
+            "max"  : -3
+        },
+        "lrdecay" : {
+            "type" : "FLOAT",
+            "size" : 1,
+            "min"  : -6,
+            "max"  : -3
+        }
+
+    }
+}
+

@@ -65,7 +65,7 @@ def write_summary(s_name = "summary.dat"):
 
     expt_file = '%s/config.json' % dev_path
     search_pattern = ['Completed successfully in ','Loss: ','score:']
-    descr = ['AMSrb_test','AMS_test','AMSrb_train','AMS_train',\
+    descr = ['AMSrb_test','AMSrb_test_reg','AMStest','AMStest_reg',\
              'ptype','hex_mask','seed','nhid','nodes','lrinit','lrdecay',\
              'momentum_init','momentum_saturate','momentum_final','batch_size']
 
@@ -200,5 +200,5 @@ def f32(flt):
 
     elif type(flt) is float or \
          type(flt) is np.float64:
-         flt = float(np.float32(flt)) 
+        flt = float(format(np.float32(flt),'.20f')) 
     return flt

@@ -1,6 +1,3 @@
-#TAMS
-#Author: Martin Flechl, 2014
-#calculate average median significance of two histograms
 ###############################################################################
 #                  Author: Markus Spanring HEPHY Vienna 2015                  #
 ###############################################################################
@@ -11,9 +8,9 @@ import argparse
 import numpy as np
 import theano
 import sys
-import pylearn2.datasets.physics
+import pylearn2.datasets.higgs_dataset
 import pickle as pkl
-from pyAMS import TAMS, ROOT
+from pyAMS import TAMS,ROOT
 
 
 
@@ -75,13 +72,13 @@ class ModelAMS():
             return [None,None]
                 
         hex_mask = self.modelname.split("_")[1]
-        dataset_test = pylearn2.datasets.physics.PHYSICS(which_set="test",
+        dataset_test = pylearn2.datasets.higgs_dataset.DATASET(which_set="test",
                                                          ptype = self.ptype,
                                                          seed = self.seed,
                                                          flag_reg = self.flag_reg,
                                                          hex_mask = hex_mask)
 
-        dataset_train = pylearn2.datasets.physics.PHYSICS(which_set="monitor",
+        dataset_train = pylearn2.datasets.higgs_dataset.DATASET(which_set="monitor",
                                                           ptype = self.ptype,
                                                           seed = self.seed,
                                                           flag_reg = self.flag_reg,
@@ -100,6 +97,9 @@ class ModelAMS():
         Y_train = np.hstack( (dataset_train.y,Yhat_train) )
         if self.contains_weight:
             Y_train = np.hstack( ( Y_train,dataset_train.event_weights ) )
+
+        del dataset_test
+        del dataset_train
 
         return [Y_test,Y_train]
 
@@ -179,10 +179,10 @@ class ModelAMS():
                 try:
                     f0 = ROOT.TFile("%s/hist/%s" % (dev_path, self.rt_name))
                     hSig_test = f0.Get(self.his_descr+"_sig_test")
-                    hSig_train = f0.Get(self.his_descr+"_sig_train")
+                    #hSig_train = f0.Get(self.his_descr+"_sig_train")
 
                     hBg_test = f0.Get(self.his_descr+"_bg_test")            
-                    hBg_train = f0.Get(self.his_descr+"_bg_train")
+                    #hBg_train = f0.Get(self.his_descr+"_bg_train")
 
                     tams = TAMS(hSig = hSig_test, hBg = hBg_test)
 
@@ -190,30 +190,31 @@ class ModelAMS():
                     self.score["test"] = tams.ams_syst_stat(0)
                     tams.br = 0.001
                     self.score["test_reg"] = tams.ams_syst_stat(0)
-                    tams.rebinEqui()
+                    tams.rebin()
                     tams.br = 1
                     self.score["test_rb"] = tams.ams_syst_stat(0)
                     tams.br = 0.0
                     self.score["test_rb_reg"] = tams.ams_syst_stat(0)
 
 
-                    tams.seth(hSig = hSig_train, hBg = hBg_train)
-                    tams.br = 1
-                    self.score["train"] = tams.ams_syst_stat(0)
-                    tams.br = 0.001
-                    self.score["train_reg"] = tams.ams_syst_stat(0)
-                    tams.rebinEqui()
-                    tams.br = 1
-                    self.score["train_rb"] = tams.ams_syst_stat(0)
-                    tams.br = 0.0
-                    self.score["train_rb_reg"] = tams.ams_syst_stat(0)
+                    # tams.seth(hSig = hSig_train, hBg = hBg_train)
+                    # tams.br = 1
+                    # self.score["train"] = tams.ams_syst_stat(0)
+                    # tams.br = 0.001
+                    # self.score["train_reg"] = tams.ams_syst_stat(0)
+                    # tams.rebin()
+                    # tams.br = 1
+                    # self.score["train_rb"] = tams.ams_syst_stat(0)
+                    # tams.br = 0.0
+                    # self.score["train_rb_reg"] = tams.ams_syst_stat(0)
 
                     f0.Close()
+                    del tams
                 except:
                     pass
 
-                strAMS += "%.5f,%.5f," % (self.score["test_rb"],self.score["test"])
-                strAMS += "%.5f,%.5f," % (self.score["train_rb"],self.score["train"])
+                strAMS += "%.5f,%.5f," % (self.score["test_rb"],self.score["test_rb_reg"])
+                strAMS += "%.5f,%.5f," % (self.score["test"],self.score["test_reg"])
 
 
                 strAMS += self.rt_name.replace(".root","").replace("_",",")
@@ -249,13 +250,12 @@ class ModelAMS():
                 tams = TAMS(hSig = hSig_test, hBg = hBg_test)
 
                 fname = self.modelname.replace('.pkl','')
-                if '.root' in modelname:
-                    fname = self.modelname.replace('.root','')
 
                 #tams.savePlot(fname= '%s_raw.png' % fname)
                 tams.rebinEqui()
                 tams.savePlot(fname= '%s_rebin.png' % fname )
                 f0.Close()
+                del tams
 
 
 
